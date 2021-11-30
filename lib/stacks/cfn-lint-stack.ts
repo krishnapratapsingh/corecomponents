@@ -11,7 +11,7 @@ export class cfnlintProjStack extends Stack {
     const CodeBuildRunRole = new Role(this, 'CodeBuildRunRole', {
       assumedBy: new ServicePrincipal('codebuild.amazonaws.com'),
       managedPolicies: [
-        ManagedPolicy.fromAwsManagedPolicyName('PowerUserAccess'),
+        ManagedPolicy.fromAwsManagedPolicyName('AdministratorAccess'),
       ],
     });
 
