@@ -1,0 +1,48 @@
+import 'source-map-support/register';
+import { Construct, Stack, StackProps } from '@aws-cdk/core';
+import { Artifact } from '@aws-cdk/aws-codepipeline';
+import { BitBucketSourceAction } from '@aws-cdk/aws-codepipeline-actions';
+import { CdkPipeline, SimpleSynthAction } from '@aws-cdk/pipelines';
+import { StringParameter } from '@aws-cdk/aws-ssm';
+import { name, description as desc } from '../package.json';
+
+
+export const service = name;
+export const description = desc;
+
+export class CorecomponentsStack extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props);
+    // define constants 
+    const repoSourceArtifact = new Artifact('SourceArtifact');
+    const sourceArtifact = new Artifact('SourceArtifact');
+    const cloudAssemblyArtifact = new Artifact('CloudFormationPrepareOutput');
+    const githubconnectionARN = "arn:aws:codestar-connections:us-east-1:637791486797:connection/f0cd002e-6c29-44d1-b23b-55857833ec19";
+    const GIT_BRANCH ="main";
+    // The code that defines your stack goes here
+      const corePipeline = new CdkPipeline(this, 'CdkCorePipeline', {
+      pipelineName: service,
+      cloudAssemblyArtifact,
+
+      // Where the source can be found
+      sourceAction: new BitBucketSourceAction({
+        actionName: 'Checkout',
+        owner: 'krishnapratapsingh',
+        repo: 'corecomponents',
+        branch: GIT_BRANCH,
+        connectionArn: githubconnectionARN,
+        output: repoSourceArtifact,
+      }),
+
+      // How it will be built and synthesized
+      synthAction: SimpleSynthAction.standardNpmSynth({
+        sourceArtifact,
+        cloudAssemblyArtifact,
+        installCommand: 'npm install --production=false',
+        environment: {
+          privileged: true,
+        },
+      }),
+    });
+  }
+}
