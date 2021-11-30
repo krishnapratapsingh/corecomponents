@@ -5,7 +5,7 @@ import { BitBucketSourceAction } from '@aws-cdk/aws-codepipeline-actions';
 import { CdkPipeline, SimpleSynthAction } from '@aws-cdk/pipelines';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { name, description as desc } from '../package.json';
-
+import { CorepipelineReleaseStage } from './corecomponents-pipeline-stage';
 
 export const service = name;
 export const description = desc;
@@ -44,5 +44,8 @@ export class CorecomponentsStack extends Stack {
         },
       }),
     });
+
+    const deploymentSatge = new CorepipelineReleaseStage( this, "cdkdeploymentstage");
+    corePipeline.addApplicationStage(deploymentSatge);
   }
 }
