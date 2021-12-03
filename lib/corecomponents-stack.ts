@@ -17,7 +17,7 @@ export class CorecomponentsStack extends Stack {
     const repoSourceArtifact = new Artifact('SourceArtifact');
     const sourceArtifact = new Artifact('SourceArtifact');
     const cloudAssemblyArtifact = new Artifact('CloudFormationPrepareOutput');
-    const githubconnectionARN = "arn:aws:codestar-connections:us-east-1:637791486797:connection/f0cd002e-6c29-44d1-b23b-55857833ec19";
+    const githubconnectionARN = "arn:aws:codestar-connections:us-east-1:174020875537:connection/7f7328c2-6e15-4599-a586-ea6acb9260ee";
     const GIT_BRANCH ="main";
     // The code that defines your stack goes here
       const corePipeline = new CdkPipeline(this, 'CdkCorePipeline', {
