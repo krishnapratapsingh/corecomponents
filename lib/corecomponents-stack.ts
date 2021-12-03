@@ -9,7 +9,7 @@ import { CorepipelineReleaseStage } from './corecomponents-pipeline-stage';
 
 export const service = name;
 export const description = desc;
-
+// Comment
 export class CorecomponentsStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
